@@ -35,31 +35,59 @@ public class DreamCar extends JFrame {
       "car15.png",
       "car16.png",
     };
+    String carTitle[] = {
+      "포르쉐",
+      "람보르기니",
+      "아이오닉",
+      "빠른차",
+      "더 빠른차",
+      "현대",
+      "기아",
+      "토요타",
+      "테슬라",
+      "자동차",
+      "쉐보레",
+      "모닝",
+      "g80",
+      "gv70",
+      "마이카",
+      "너의카",
+    };
 
     JPanel mainPanel = new JPanel();
+    JPanel leftPanel = new JPanel();
+    JPanel rightPanel = new JPanel();
+    JLabel leftTitleLabel = new JLabel("포르쉐");
+    JLabel rightTitleLabel = new JLabel("람보르기니");
     JLabel leftLabel = new JLabel(new ImageIcon("images/car/car01.png"));
-    JLabel carLabel = new JLabel(carList[current]);
-    mainPanel.add(carLabel);
-
-    JLabel vs = new JLabel("VS");
-    vs.setFont(new Font("나눔스퀘어", Font.BOLD, 24));
     JLabel rightLabel = new JLabel(new ImageIcon("images/car/car02.png"));
-    JPanel resultPanel = new JPanel();
-    JLabel resultLabel = new JLabel();
-    resultLabel.setFont(new Font("나눔스퀘어", Font.BOLD, 16));
-    resultLabel.setHorizontalAlignment(JLabel.CENTER);
+
+    leftTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+    rightTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+    leftPanel.setLayout(new BorderLayout());
+    leftPanel.add(leftLabel, BorderLayout.NORTH);
+    leftPanel.add(leftTitleLabel, BorderLayout.SOUTH);
+
+    rightPanel.setLayout(new BorderLayout());
+    rightPanel.add(rightLabel, BorderLayout.NORTH);
+    rightPanel.add(rightTitleLabel, BorderLayout.SOUTH);
+
+    mainPanel.add(leftPanel);
+    mainPanel.add(rightPanel);
 
     leftLabel.addMouseListener(
       new MouseAdapter() {
         @Override
         public void mouseClicked(MouseEvent e) {
           rightLabel.setIcon(new ImageIcon("images/car/" + carList[current]));
+          rightTitleLabel.setText(carTitle[current]);
           current++;
-          if (current == 16) {
-            rightLabel.setVisible(false);
+          if (current >= 16) {
+            rightPanel.setVisible(false);
+            leftLabel.removeMouseListener(this);
             leftLabel.setHorizontalAlignment(JLabel.CENTER);
             leftLabel.setVerticalAlignment(JLabel.CENTER);
-            resultLabel.setText("당신의 드림카 입니다!");
+            title.setText("당신의 드림카는 " + leftTitleLabel.getText());
           }
         }
       }
@@ -69,26 +97,21 @@ public class DreamCar extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
           leftLabel.setIcon(new ImageIcon("images/car/" + carList[current]));
+          leftTitleLabel.setText(carTitle[current]);
           current++;
-          if (current == 16) {
-            leftLabel.setVisible(false);
+          if (current >= 16) {
+            leftPanel.setVisible(false);
+            rightLabel.removeMouseListener(this);
             rightLabel.setHorizontalAlignment(JLabel.CENTER);
             rightLabel.setVerticalAlignment(JLabel.CENTER);
-            resultLabel.setText("당신의 드림카 입니다!");
+            title.setText("당신의 드림카는 " + rightTitleLabel.getText());
           }
         }
       }
     );
 
-    mainPanel.add(rightLabel);
-
-    mainPanel.add(vs);
-    mainPanel.add(leftLabel);
-    resultPanel.add(resultLabel);
-
     contentPane.add(title, BorderLayout.NORTH);
     contentPane.add(mainPanel, BorderLayout.CENTER);
-    contentPane.add(resultPanel, BorderLayout.SOUTH);
 
     this.setSize(800, 350);
     this.setLocationRelativeTo(null);
